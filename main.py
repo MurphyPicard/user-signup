@@ -17,33 +17,41 @@
 import webapp2
 
 intro = "<h1>Ara's Signup Project for LaunchCode 101</h1>\n"
+
+
 form = """
         <form action="/" method="POST">
             <table>
                 <tr>
                     <td>Username</td>
-                    <td><input name='username' type='text'/></td>
+                    <td><input name='username' type='text' value='{0}'/></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input name='password' type='text'/></td>
+                    <td><input name='password' type='password' value=''/></td>
                 </tr>
                 <tr>
                     <td>Verify Password</td>
-                    <td><input name='password' type='text'/></td>
+                    <td><input name='password' type='password' value=''/></td>
                 </tr>
                 <tr>
                     <td>Email (Optional)</td>
-                    <td><input name='email' type='text'/></td>
+                    <td><input name='email' type='text' value='{1}'/></td>
                 </tr>
             </table>
-            <input type="submit">
+            <input type="submit" value="submit">
         </form>
 """
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(intro + form)
+        self.response.write(intro + self.renderForm("", ""))
+
+    def renderForm(self, username=, email=):
+        return form.format(username, email)
+
+    def post(self):
+        self.response.write(intro + self.renderForm(, ))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
